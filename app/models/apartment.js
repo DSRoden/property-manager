@@ -34,8 +34,11 @@ Apartment.prototype.bedrooms = function(){
 };
 
 Apartment.prototype.isAvailable = function(){
-  if(this.bedrooms() > this.renters.length){
-     return true;
+
+  if(this.bedrooms() > this.renters.length) {
+    return true;
+  } else { 
+    return false;
   }
 };
 

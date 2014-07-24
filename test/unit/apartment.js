@@ -71,10 +71,25 @@ describe('Apartment', function(){
    console.log(a1.renters.length);
    console.log(a1.rooms.length);
    console.log(a1.bedrooms());
-   expect(a1.isAvailable).to.be.true;
+   expect(a1.isAvailable()).to.be.true;
   });
  });
 
+ describe('#isAvailable', function(){
+  it('should find if there are rooms available', function() {
+   var a1 = new Apartment('unit');
+   var room1 = new Room('bedroom', '10', '10');
+   var room2 = new Room('den', '10', '10');
+    
+   var renter1 = new Renter('Benny','32', 'Male', 'Ninja');
 
+   a1.rooms = [room1, room2];
+   a1.renters = [renter1];
+   console.log(a1.renters.length);
+   console.log(a1.rooms.length);
+   console.log(a1.bedrooms());
+   expect(a1.isAvailable()).to.be.false;
+  });
+ });
 });
 
