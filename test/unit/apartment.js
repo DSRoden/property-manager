@@ -103,7 +103,7 @@ describe('Apartment', function(){
  });
 
  describe('#purgeEvicted', function(){
-  it('should purge evicted renters', function(){
+  it('should purge evicted renters/create a list of paying tenants', function(){
     var a1 = new Apartment('unit');
     var renter1 = new Renter('Benny', '32', 'Male', 'Slumlord');
     var renter2 = new Renter('Sarah', '32', 'Female', 'Dealer');
@@ -144,8 +144,34 @@ describe('Apartment', function(){
   });
  });
 
+ describe('find', function(){
+  it('Should find all the items from mongodb', function(done) {
+    var A1 = new Apartment('A1');
+    A1.save(function(){
+      Apartment.find({},function (apartments) {
+        expect(apartments).to.have.length(1);
+        done();
+    });
+  });
+ });
 
-
+  it('Should find an items in mongodb that match a query', function(done) {
+    var A1 = new Apartment('A1');
+    var A2 = new Apartment('A2');
+    var A3 = new Apartment('A3');
+    A1.save(function(){
+      A2.save(function(){
+        A3.save(function() {
+          Apartment.find({unit : 'A1'}, function(apartments){
+            expect(apartments).to.have.length(1);
+            expect(apartments[0].unit).to.equal('A1');
+            done();
+          });
+        });
+      });
+    });
+   });
+ });
   
 // End Bracket //
 });

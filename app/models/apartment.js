@@ -49,10 +49,8 @@ Apartment.prototype.purgeEvicted = function(){
     for(var i=0; i < this.renters.length; i++){
      if (this.renters[i].isEvicted ===false){
      tenents.push(this.renters[i]);
-     console.log(tenents);
      }
    }
-    console.log(tenents); 
     return tenents;
 };
 
@@ -60,7 +58,7 @@ Apartment.prototype.collectRent = function(){
  return this.totalCost()/ this.renters.length;
 };
 
-// Asynchronous Functions//
+// Asynchronous Instance  Functions //
 
 Apartment.prototype.save = function(cb) {
   cApartments.save(this, function(err,obj){
@@ -68,7 +66,13 @@ Apartment.prototype.save = function(cb) {
   });
 };
 
+// Asynchronous Class Functions //
 
+Apartment.find = function(query, cb) {
+  cApartments.find(query).toArray(function(err, apartments) {
+    cb(apartments);
+  });
+};
 
 
 

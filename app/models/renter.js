@@ -49,7 +49,6 @@ Renter.prototype.partyness = function(){
       else {
       this.isEvicted = false;
       }
-console.log(this.isEvicted);
 };
 
 
