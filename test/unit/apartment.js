@@ -243,7 +243,16 @@ describe('Apartment', function(){
      });
   });
 
-          
+  describe('Area', function(){
+    it('should fuind area of apartment complex', function(done){
+      Apartment.findCost(function(complexCost){
+      expect(complexCost).to.equal(4500);
+      done();
+        });
+     });
+  });
+  
+
           // End Bracket //
 
  
