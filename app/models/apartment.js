@@ -42,6 +42,17 @@ Apartment.prototype.isAvailable = function(){
   }
 };
 
+Apartment.prototype.purgeEvicted = function(){
+    var tenents = [];
+    for(var i=0; i < this.renters.length; i++){
+     if (this.renters[i].isEvicted ===false){
+     tenents.push(this.renters[i]);
+     console.log(tenents);
+     }
+   }
+    console.log(tenents); 
+    return tenents;
+};
 
 
 

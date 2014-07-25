@@ -81,7 +81,7 @@ describe('Apartment', function(){
    var room1 = new Room('bedroom', '10', '10');
    var room2 = new Room('den', '10', '10');
     
-   var renter1 = new Renter('Benny','32', 'Male', 'Ninja');
+   var renter1 = new Renter('Benny','32', 'Male', 'Slumlord');
 
    a1.rooms = [room1, room2];
    a1.renters = [renter1];
@@ -89,6 +89,20 @@ describe('Apartment', function(){
    console.log(a1.rooms.length);
    console.log(a1.bedrooms());
    expect(a1.isAvailable()).to.be.false;
+  });
+ });
+
+ describe('#purgeEvicted', function(){
+  it('should purge evicted renters', function(){
+    var a1 = new Apartment('unit');
+    var renter1 = new Renter('Benny', '32', 'Male', 'Slumlord');
+    var renter2 = new Renter('Sarah', '32', 'Female', 'Dealer');
+        renter1.cash = 100;
+        renter2.cash = 600;
+        renter1.rent(400);
+        renter2.rent(400);
+    a1.renters = [renter1, renter2];
+    expect(a1.purgeEvicted()).to.have.length(1);
   });
  });
 });

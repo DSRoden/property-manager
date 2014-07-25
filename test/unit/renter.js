@@ -57,4 +57,13 @@ describe('Renter', function(){
         }
      });
   });
+
+ /* describe('#evict', function(){
+    it('should evict renters with isEvict = true', function(){
+    var renter1 = new Renter('Jerome', '44', 'Male', 'Slumlord');
+      renter1.cash = 100;
+      renter1.rent(400);
+      expect(renter1.evict()).to.be.true;
+    });
+  });*/
 });
