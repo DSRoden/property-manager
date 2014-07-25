@@ -105,5 +105,21 @@ describe('Apartment', function(){
     expect(a1.purgeEvicted()).to.have.length(1);
   });
  });
+
+ describe('#collectRent', function(){
+   it('should collect rent based on cost of an apartment and number of renters', function(){
+     var a1 = new Apartment('unit');
+     var room1 = new Room('bedroom', '10', '10');
+     var room2 = new Room('den', '10', '10');
+     var room3 = new Room('bedroom', '10', '10');
+     
+    var renter1 = new Renter('Benny', '32', 'Male', 'Slumlord');
+    var renter2 = new Renter('Sarah', '32', 'Female', 'Dealer');
+    
+    a1.rooms =[room1, room2, room3];
+    a1.renters =[renter1, renter2];
+    expect(a1.collectRent()).to.equal(750);
+   });
+ });
 });
 

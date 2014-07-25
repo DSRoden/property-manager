@@ -54,6 +54,9 @@ Apartment.prototype.purgeEvicted = function(){
     return tenents;
 };
 
+Apartment.prototype.collectRent = function(){
+ return this.totalCost()/ this.renters.length;
+};
 
 
 
