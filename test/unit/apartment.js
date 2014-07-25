@@ -172,7 +172,46 @@ describe('Apartment', function(){
     });
    });
  });
-  
-// End Bracket //
+
+ describe('findById', function(){
+  it('Should find an object in the collection based on its ObjectID', function(done) {
+    var A1 = new Apartment('A1');
+    var A2 = new Apartment('A2');
+    A1.save(function() {
+      A2.save(function() {
+        Apartment.find({}, function (apartments){
+        Apartment.findById(apartments[0]._id , function(apartments){
+        expect(apartments.unit).to.equal('A1');
+        expect(apartments).to.be.instanceof(Apartment);
+        done();
+        });
+       });
+      });
+    });
+  });
+ });
+
+  describe('.deletebyID', function(){
+    it('should delete one appt', function(done){
+      var A1 = new Apartment('A1');
+      var A2 = new Apartment('A2');
+        A1.save(function() {
+        A2.save(function() {
+        Apartment.find({}, function(apartments){
+        Apartment.deleteById(apartments[0]._id, function(){
+        Apartment.find({}, function(apartments2){
+          expect(apartments2).to.have.length(1);
+          done();
+        });
+        });
+        });
+        });
+        });
+    });
+});
+          
+          // End Bracket //
+
+ 
 });
 

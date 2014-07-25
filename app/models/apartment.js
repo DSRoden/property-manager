@@ -1,7 +1,7 @@
 'use strict';
 
 var cApartments = global.mongodb.collection('apartments');
-
+var _ = require('lodash');
 function Apartment(unit) {
 
   this.unit = unit;
@@ -74,7 +74,18 @@ Apartment.find = function(query, cb) {
   });
 };
 
+Apartment.findById = function(query, cb) {
+  cApartments.findOne(query, function(err, apartments){
+    apartments = _.create(Apartment.prototype, apartments);
+     cb(apartments);
+  });
+};
 
+Apartment.deleteById = function(id, cb) {
+  cApartments.remove({_id : id}, function(){
+     cb();
+  });
+};
 
 
 
