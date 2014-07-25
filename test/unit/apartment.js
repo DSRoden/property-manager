@@ -29,7 +29,10 @@ describe('Apartment', function(){
      
       var Bob = new Renter('Bob', '33', 'Male', 'Slumlord');
       var Sarah = new Renter('Sarah', '33', 'Female', 'Dealer');
-  
+      
+      Bob.cash = 400;
+      Sarah.cash = 100;
+      
       A4.renters = [Bob, Sarah];
       A5.renters = [Bob, Sarah];
       A6.renters = [Bob, Sarah];
@@ -252,7 +255,15 @@ describe('Apartment', function(){
      });
   });
   
-
+  describe('Tenents', function(){
+    it('should find total number of tennants', function(done){
+      Apartment.tenents(function(numTenents){
+        expect(numTenents).to.equal(6);
+        done();
+      });
+    });
+  
+  });
           // End Bracket //
 
  

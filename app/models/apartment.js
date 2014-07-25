@@ -113,6 +113,16 @@ Apartment.findCost = function(cb){
  });
 };
 
+Apartment.tenents = function(cb){
+  Apartment.find({}, function(apartments){
+  var numTenents = 0;
+    for(var i = 0; i < apartments.length; i++){
+    numTenents += apartments[i].renters.length;
+    }
+    cb(numTenents);
+  });
+};
+
 function reProto(apt){
   var room, renter;
   for(var i= 0; i < apt.rooms.length;i++){
