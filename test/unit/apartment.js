@@ -264,6 +264,20 @@ describe('Apartment', function(){
     });
   
   });
+
+  describe('Revenue', function(){
+    it('should give total revenue of complex', function(done){
+      var A7 = new Apartment('A7');
+      var bedroom = new Room('bedroom', '10', '12');
+      A7.rooms.push(bedroom);
+      A7.save(function(){
+      Apartment.revenue(function(totalRev){
+      expect(totalRev).to.equal(4500);
+      done();
+      });
+      });
+    });
+  });
           // End Bracket //
 
  

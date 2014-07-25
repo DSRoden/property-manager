@@ -123,6 +123,20 @@ Apartment.tenents = function(cb){
   });
 };
 
+Apartment.revenue = function(cb){
+  Apartment.find({}, function(apartments){
+    var sum = 0;
+    for(var i = 0; i < apartments.length; i++){
+    if (apartments[i].renters.length > 0){
+      sum+= apartments[i].totalCost();
+    }
+    }
+    cb(sum);
+  });
+};
+
+//Helper Function from Adam //
+
 function reProto(apt){
   var room, renter;
   for(var i= 0; i < apt.rooms.length;i++){
