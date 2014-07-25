@@ -2,6 +2,9 @@
 
 var cApartments = global.mongodb.collection('apartments');
 var _ = require('lodash');
+var Room = require('./room');
+var Renter = require('./renter');
+
 function Apartment(unit) {
 
   this.unit = unit;
@@ -70,14 +73,17 @@ Apartment.prototype.save = function(cb) {
 
 Apartment.find = function(query, cb) {
   cApartments.find(query).toArray(function(err, apartments) {
+   for(var i = 0; i <apartments.length; i++){
+     apartments[i] = reProto(apartments[i]);
+   }
     cb(apartments);
+
   });
 };
 
 Apartment.findById = function(query, cb) {
   cApartments.findOne(query, function(err, apartments){
-    apartments = _.create(Apartment.prototype, apartments);
-     cb(apartments);
+     cb(reProto(apartments));
   });
 };
 
@@ -87,9 +93,31 @@ Apartment.deleteById = function(id, cb) {
   });
 };
 
+Apartment.findArea = function(cb){
+  Apartment.find({}, function(apartments){
+  var sum = 0;
+    for(var i = 0; i < apartments.length; i++){
+    sum += apartments[i].totalArea();
+  }
+    cb(sum);
+ });
+};
 
 
+function reProto(apt){
+  var room, renter;
+  for(var i= 0; i < apt.rooms.length;i++){
+    room = _.create(Room.prototype, apt.rooms[i]);
+    apt.rooms[i] = room;
+  }
+  for(var j = 0; j <apt.renters.length; j++){
+    renter = _.create(Renter.prototype, apt.renters[j]);
+    apt.renters[j] = renter;
+  }
+  apt = _.create(Apartment.prototype, apt);
 
+  return apt;
+}
 
 
 

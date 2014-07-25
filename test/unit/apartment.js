@@ -19,7 +19,31 @@ describe('Apartment', function(){
 
   beforeEach(function(done){
     global.mongodb.collection('apartments').remove(function(){
-      done();
+      var A4 = new Apartment('A4');
+      var A5 = new Apartment('A5');
+      var A6 = new Apartment('A6');
+      
+      var  den = new Room('Den', '10', '10');
+      var bedroom1 = new Room('bedroom1', '10', '10');
+      var bedroom2 = new Room('bedroom2', '10', '10');
+     
+      var Bob = new Renter('Bob', '33', 'Male', 'Slumlord');
+      var Sarah = new Renter('Sarah', '33', 'Female', 'Dealer');
+  
+      A4.renters = [Bob, Sarah];
+      A5.renters = [Bob, Sarah];
+      A6.renters = [Bob, Sarah];
+
+      A4.rooms = [den, bedroom1, bedroom2];
+      A5.rooms = [den, bedroom1, bedroom2];
+      A6.rooms = [den,bedroom1, bedroom2];
+      A4.save(function(){
+        A5.save(function(){
+          A6.save(function(){
+            done();
+          });
+        });
+      });
     });
   });
 
@@ -149,7 +173,7 @@ describe('Apartment', function(){
     var A1 = new Apartment('A1');
     A1.save(function(){
       Apartment.find({},function (apartments) {
-        expect(apartments).to.have.length(1);
+        expect(apartments).to.have.length(4);
         done();
     });
   });
@@ -181,7 +205,7 @@ describe('Apartment', function(){
       A2.save(function() {
         Apartment.find({}, function (apartments){
         Apartment.findById(apartments[0]._id , function(apartments){
-        expect(apartments.unit).to.equal('A1');
+        expect(apartments.unit).to.equal('A4');
         expect(apartments).to.be.instanceof(Apartment);
         done();
         });
@@ -200,15 +224,25 @@ describe('Apartment', function(){
         Apartment.find({}, function(apartments){
         Apartment.deleteById(apartments[0]._id, function(){
         Apartment.find({}, function(apartments2){
-          expect(apartments2).to.have.length(1);
+          expect(apartments2).to.have.length(4);
           done();
         });
-        });
-        });
-        });
-        });
+       });
+      });
+     });
     });
+  });
 });
+
+  describe('Area', function(){
+    it('should fuind area of apartment complex', function(done){
+      Apartment.findArea(function(complexArea){
+      expect(complexArea).to.equal(900);
+      done();
+        });
+     });
+  });
+
           
           // End Bracket //
 
