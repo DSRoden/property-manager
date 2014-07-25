@@ -1,5 +1,7 @@
 'use strict';
 
+var cApartments = global.mongodb.collection('apartments');
+
 function Apartment(unit) {
 
   this.unit = unit;
@@ -57,6 +59,16 @@ Apartment.prototype.purgeEvicted = function(){
 Apartment.prototype.collectRent = function(){
  return this.totalCost()/ this.renters.length;
 };
+
+// Asynchronous Functions//
+
+Apartment.prototype.save = function(cb) {
+  cApartments.save(this, function(err,obj){
+    cb();
+  });
+};
+
+
 
 
 

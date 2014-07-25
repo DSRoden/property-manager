@@ -1,13 +1,30 @@
 /* jshint expr:true */
-/*global describe, it*/
+/*global describe, it, before, beforeEach*/
 'use strict';
 
 var expect = require('chai').expect;
-var Apartment = require('../../app/models/apartment.js');
+var connect = require('../../app/lib/mongodb');
+var Mongo = require('mongodb');
 var Room = require('../../app/models/room.js');
 var Renter = require('../../app/models/renter.js');
+var Apartment;
 
 describe('Apartment', function(){
+  before(function(done){
+    connect('Property-Manager-Test', function(){
+      Apartment = require('../../app/models/apartment.js');
+      done();
+    });
+  });
+
+  beforeEach(function(done){
+    global.mongodb.collection('apartments').remove(function(){
+      done();
+    });
+  });
+
+// Constructor  //
+
   describe('constructor', function(){
   it('should create an apatment', function(){
   var a1 = new Apartment('unit');
@@ -18,6 +35,8 @@ describe('Apartment', function(){
   });
  });
 
+// Synchronous Functions //
+
  describe('#area', function(){
   it('should find the area of the apartment', function() {
    var a1 = new Apartment('unit');
@@ -26,7 +45,6 @@ describe('Apartment', function(){
    var room3 = new Room('bedroom', '10', '10');
 
    a1.rooms = [room1, room2, room3];
-   console.log(a1.rooms);
    expect(a1.totalArea()).to.equal(300);
   });
  });
@@ -39,7 +57,6 @@ describe('Apartment', function(){
    var room3 = new Room('bedroom', '10', '10');
 
    a1.rooms = [room1, room2, room3];
-   console.log(a1.rooms);
    expect(a1.totalCost()).to.equal(1500);
   });
  });
@@ -52,7 +69,6 @@ describe('Apartment', function(){
    var room3 = new Room('bedroom', '10', '10');
 
    a1.rooms = [room1, room2, room3];
-   console.log(a1.rooms);
    expect(a1.bedrooms()).to.equal(2);
   });
  });
@@ -68,9 +84,6 @@ describe('Apartment', function(){
 
    a1.rooms = [room1, room2, room3];
    a1.renters = [renter1];
-   console.log(a1.renters.length);
-   console.log(a1.rooms.length);
-   console.log(a1.bedrooms());
    expect(a1.isAvailable()).to.be.true;
   });
  });
@@ -85,9 +98,6 @@ describe('Apartment', function(){
 
    a1.rooms = [room1, room2];
    a1.renters = [renter1];
-   console.log(a1.renters.length);
-   console.log(a1.rooms.length);
-   console.log(a1.bedrooms());
    expect(a1.isAvailable()).to.be.false;
   });
  });
@@ -121,5 +131,22 @@ describe('Apartment', function(){
     expect(a1.collectRent()).to.equal(750);
    });
  });
+
+// Asynchronous Functions //
+
+ describe('#save', function(){
+  it('Should save an apartment to mongodb', function(done) {
+    var A1 = new Apartment('A1');
+    A1.save(function() {
+      expect(A1._id).to.be.instanceof(Mongo.ObjectID);
+      done();
+    });
+  });
+ });
+
+
+
+  
+// End Bracket //
 });
 
